@@ -4,16 +4,24 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Bet {
-    uint256 betAmount;
+    uint256 public betAmount;
+    address payable public bettor;
 
-    function bet(uint256 _bet) public {
-        console.log("I'm betting this much: %s", _bet);
+    function bet() public payable {
+        console.log("I'm betting this much: %s", msg.value);
 
-        betAmount = _bet;
+        betAmount += msg.value;
+        bettor = payable(msg.sender);
     }
 
-    function get() public view returns (uint256) {
-        return betAmount;
+    function payOut(bool playerWins) external returns (bool) {
+        console.log("Game over, did the player win?: %s", playerWins);
+        if (playerWins) {
+            console.log("Transferring the player %s", address(this).balance);
+            bettor.transfer(address(this).balance);
+            return true;
+        }
+        console.log("Transferring the house %s", address(this).balance);
+        return true;
     }
 }
-
