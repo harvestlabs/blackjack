@@ -1,0 +1,15 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hardhat": "^2.9.1"
+  },
+  "devDependencies": {
+    "hardhat-kontour": "^0.0.3"
+  }
+}
