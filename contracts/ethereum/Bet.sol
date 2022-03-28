@@ -17,11 +17,11 @@ contract Bet {
     function payOut(bool playerWins) external returns (bool) {
         console.log("Game over, did the player win?: %s", playerWins);
         if (playerWins) {
-            console.log("Transferring the player %s", address(this).balance);
-            bettor.transfer(address(this).balance);
+            console.log("Transferring the player %s", betAmount);
+            bettor.transfer(betAmount);
             return true;
         }
-        console.log("Transferring the house %s", address(this).balance);
+        console.log("Transferring the house %s", betAmount);
         return true;
     }
 }

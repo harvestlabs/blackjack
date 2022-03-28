@@ -4,15 +4,15 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Deal {
-    uint8[] CARDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    uint8[] CARDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
     uint8[] dealerHand;
     uint8[] playerHand;
     uint8 public gameOver;
     address public betAddress;
 
     constructor(address _betAddress) {
-        dealerHand = [5, 6];
-        playerHand = [10, 9];
+        dealerHand = [10, 4];
+        playerHand = [4, 8];
         gameOver = 0;
         betAddress = _betAddress;
     }
@@ -24,6 +24,13 @@ contract Deal {
 
         emit CardDealt(card, false);
         playerHand.push(card);
+        uint8 sum = 0;
+        for (uint8 i = 0; i < playerHand.length; i+= 1) {
+            sum += playerHand[i];
+        }
+        if (sum > 21) {
+            endGame(21, sum);
+        }
     }
 
     function selectCard() internal view returns (uint8) {
@@ -60,7 +67,7 @@ contract Deal {
             return 1;
         }
         if (dealerSum >= 17) {
-            bool playerWins = (dealerSum - playerSum) < 0;
+            bool playerWins = dealerSum < playerSum;
             console.log("playerWins: %s", playerWins);
             emit GameOver(playerSum, dealerSum, playerWins);
 
